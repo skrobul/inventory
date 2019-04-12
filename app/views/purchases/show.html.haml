@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Retailer:
+  = @purchase.retailer.name
+%p
+  %b Item:
+  = @purchase.item.name
+%p
+  %b Quantity:
+  = @purchase.quantity
+%p
+  %b Unit cost:
+  = @purchase.unit_cost
+
+= link_to 'Edit', edit_purchase_path(@purchase)
+\|
+= link_to 'Back', purchases_path
