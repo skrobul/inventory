@@ -3,6 +3,7 @@
 %table
   %thead
     %tr
+      %th Date
       %th Name
       %th Category
       %th
@@ -12,6 +13,7 @@
   %tbody
     - @items.each do |item|
       %tr
+        %td= item.date
         %td= item.name
         %td= item.category.name
         %td= link_to 'Show', item
