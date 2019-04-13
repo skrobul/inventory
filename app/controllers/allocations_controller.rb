@@ -12,6 +12,9 @@ class AllocationsController < ApplicationController
     @allocations = Allocation.all
                              .order(:date)
                              .where("DATE_TRUNC('month', date) = ?", query)
+    @total_allocations = @allocations.inject(0) do |sum, allocation|
+      sum + allocation.purchase.unit_cost * allocation.quantity
+    end.ceil(2)
   end
 
   # GET /allocations/1
