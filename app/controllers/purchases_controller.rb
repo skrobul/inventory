@@ -14,7 +14,7 @@ class PurchasesController < ApplicationController
                          .where("DATE_TRUNC('month', date) = ?", query)
     @total_purchases = @purchases.inject(0) do |sum, purchase|
       sum + purchase.unit_cost * purchase.quantity
-    end.ceil(2)
+    end.round(2)
   end
 
   # GET /purchases/1
