@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Allocation < ApplicationRecord
   belongs_to :purchase
 
@@ -12,7 +14,7 @@ class Allocation < ApplicationRecord
 
     if required_quantity <= total_available_items
       allocations = []
-      while required_quantity > 0
+      while required_quantity.positive?
         purchase = available_purchases.shift
         purchase_max_allocation = purchase&.available || 0
         if required_quantity > purchase_max_allocation

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class RetailersController < ApplicationController
-  before_action :set_retailer, only: [:show, :edit, :update, :destroy]
+  before_action :set_retailer, only: %i[show edit update destroy]
 
   # GET /retailers
   # GET /retailers.json
@@ -9,8 +11,7 @@ class RetailersController < ApplicationController
 
   # GET /retailers/1
   # GET /retailers/1.json
-  def show
-  end
+  def show; end
 
   # GET /retailers/new
   def new
@@ -18,8 +19,7 @@ class RetailersController < ApplicationController
   end
 
   # GET /retailers/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /retailers
   # POST /retailers.json
@@ -62,13 +62,14 @@ class RetailersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_retailer
-      @retailer = Retailer.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def retailer_params
-      params.require(:retailer).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_retailer
+    @retailer = Retailer.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def retailer_params
+    params.require(:retailer).permit(:name)
+  end
 end

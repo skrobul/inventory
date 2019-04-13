@@ -1,1 +1,3 @@
-json.partial! "allocations/allocation", allocation: @allocation
+# frozen_string_literal: true
+
+json.partial! 'allocations/allocation', allocation: @allocation

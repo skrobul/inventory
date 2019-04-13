@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AllocationsController < ApplicationController
-  before_action :set_allocation, only: [:show, :edit, :update, :destroy]
+  before_action :set_allocation, only: %i[show edit update destroy]
 
   # GET /allocations
   # GET /allocations.json
@@ -9,8 +11,7 @@ class AllocationsController < ApplicationController
 
   # GET /allocations/1
   # GET /allocations/1.json
-  def show
-  end
+  def show; end
 
   # GET /allocations/new
   def new
@@ -18,8 +19,7 @@ class AllocationsController < ApplicationController
   end
 
   # GET /allocations/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /allocations
   # POST /allocations.json
@@ -34,13 +34,13 @@ class AllocationsController < ApplicationController
         @allocation.errors.add(:quantity, allocation_result.error_message)
         format.html { render :new }
       end
-    #   if @allocation.save
-    #     format.html { redirect_to @allocation, notice: 'Allocation was successfully created.' }
-    #     format.json { render :show, status: :created, location: @allocation }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @allocation.errors, status: :unprocessable_entity }
-    #   end
+      #   if @allocation.save
+      #     format.html { redirect_to @allocation, notice: 'Allocation was successfully created.' }
+      #     format.json { render :show, status: :created, location: @allocation }
+      #   else
+      #     format.html { render :new }
+      #     format.json { render json: @allocation.errors, status: :unprocessable_entity }
+      #   end
     end
   end
 
@@ -69,16 +69,17 @@ class AllocationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_allocation
-      @allocation = Allocation.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def allocation_params
-      result = params.require(:allocation).permit(:date, :quantity)
-      item_id = params.dig(:item, :id)
-      result[:item_id] = item_id
-      result
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_allocation
+    @allocation = Allocation.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def allocation_params
+    result = params.require(:allocation).permit(:date, :quantity)
+    item_id = params.dig(:item, :id)
+    result[:item_id] = item_id
+    result
+  end
 end

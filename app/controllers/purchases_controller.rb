@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PurchasesController < ApplicationController
-  before_action :set_purchase, only: [:show, :edit, :update, :destroy]
+  before_action :set_purchase, only: %i[show edit update destroy]
 
   # GET /purchases
   # GET /purchases.json
@@ -9,8 +11,7 @@ class PurchasesController < ApplicationController
 
   # GET /purchases/1
   # GET /purchases/1.json
-  def show
-  end
+  def show; end
 
   # GET /purchases/new
   def new
@@ -18,8 +19,7 @@ class PurchasesController < ApplicationController
   end
 
   # GET /purchases/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /purchases
   # POST /purchases.json
@@ -62,17 +62,18 @@ class PurchasesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_purchase
-      @purchase = Purchase.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    # Converts the total cost to a unit cost, ready to send to the model.
-    def purchase_params
-      result = params.require(:purchase).permit(:date, :retailer_id, :item_id, :quantity, :total_cost)
-      total = result.delete(:total_cost)
-      result[:unit_cost] = BigDecimal(total) / Integer(result.fetch(:quantity))
-      result
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_purchase
+    @purchase = Purchase.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  # Converts the total cost to a unit cost, ready to send to the model.
+  def purchase_params
+    result = params.require(:purchase).permit(:date, :retailer_id, :item_id, :quantity, :total_cost)
+    total = result.delete(:total_cost)
+    result[:unit_cost] = BigDecimal(total) / Integer(result.fetch(:quantity))
+    result
+  end
 end

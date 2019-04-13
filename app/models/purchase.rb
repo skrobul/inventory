@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class Purchase < ApplicationRecord
   belongs_to :retailer
   belongs_to :item
   has_many :allocations
 
-  scope :available_by_item, ->(item_id) {
+  scope :available_by_item, lambda { |item_id|
     find_by_sql(
       ['SELECT *
         FROM (
@@ -15,7 +17,7 @@ class Purchase < ApplicationRecord
           ORDER by purchases.date
         ) AS open_purchases
         WHERE available > 0',
-      item_id]
+       item_id]
     ).map { |purchase| Purchase.find(purchase.id) }
   }
 
