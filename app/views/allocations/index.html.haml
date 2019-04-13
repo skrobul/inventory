@@ -17,7 +17,7 @@
         %td= allocation.date
         %td= allocation.purchase.item.name
         %td= allocation.quantity
-        %td= allocation.purchase.unit_cost
+        %td= allocation.purchase.unit_cost.ceil(4)
         %td= link_to 'Show', allocation
         %td= link_to 'Edit', edit_allocation_path(allocation)
         %td= link_to 'Destroy', allocation, method: :delete, data: { confirm: 'Are you sure?' }

@@ -11,7 +11,7 @@
   = @allocation.quantity
 %p
   %b Unit Cost:
-  = @allocation.purchase.unit_cost
+  = @allocation.purchase.unit_cost.ceil(4)
 
 = link_to 'Edit', edit_allocation_path(@allocation)
 \|

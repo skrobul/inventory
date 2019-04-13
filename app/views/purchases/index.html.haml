@@ -19,7 +19,7 @@
         %td= purchase.retailer.name
         %td= purchase.item.name
         %td= purchase.quantity
-        %td= purchase.unit_cost
+        %td= purchase.unit_cost.ceil(4)
         %td= link_to 'Show', purchase
         %td= link_to 'Edit', edit_purchase_path(purchase)
         %td= link_to 'Destroy', purchase, method: :delete, data: { confirm: 'Are you sure?' }
