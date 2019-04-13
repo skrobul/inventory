@@ -1,0 +1,27 @@
+%h1 Listing allocations
+
+%table
+  %thead
+    %tr
+      %th Date
+      %th Item
+      %th Quantity
+      %th Unit Cost
+      %th
+      %th
+      %th
+
+  %tbody
+    - @allocations.each do |allocation|
+      %tr
+        %td= allocation.date
+        %td= allocation.purchase.item.name
+        %td= allocation.quantity
+        %td= allocation.purchase.unit_cost
+        %td= link_to 'Show', allocation
+        %td= link_to 'Edit', edit_allocation_path(allocation)
+        %td= link_to 'Destroy', allocation, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Allocation', new_allocation_path

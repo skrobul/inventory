@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Date:
+  = @allocation.date
+%p
+  %b Item:
+  = @allocation.purchase.item.name
+%p
+  %b Quantity:
+  = @allocation.quantity
+%p
+  %b Unit Cost:
+  = @allocation.purchase.unit_cost
+
+= link_to 'Edit', edit_allocation_path(@allocation)
+\|
+= link_to 'Back', allocations_path
