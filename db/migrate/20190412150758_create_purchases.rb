@@ -5,8 +5,6 @@ class CreatePurchases < ActiveRecord::Migration[5.2]
       t.references :item, foreign_key: true
       t.integer :quantity
       t.decimal :unit_cost
-
-      t.timestamps
     end
   end
 end
