@@ -70,7 +70,7 @@ class PurchasesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     # Converts the total cost to a unit cost, ready to send to the model.
     def purchase_params
-      result = params.require(:purchase).permit(:retailer_id, :item_id, :quantity, :total_cost)
+      result = params.require(:purchase).permit(:date, :retailer_id, :item_id, :quantity, :total_cost)
       total = result.delete(:total_cost)
       result[:unit_cost] = BigDecimal(total) / Integer(result.fetch(:quantity))
       result
