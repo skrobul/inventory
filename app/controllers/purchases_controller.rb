@@ -6,7 +6,12 @@ class PurchasesController < ApplicationController
   # GET /purchases
   # GET /purchases.json
   def index
+    year = params.fetch(:year, Date.today.year)
+    month = params.fetch(:month, Date.today.month)
+    query = "#{year}-#{month}-01"
     @purchases = Purchase.all
+                         .order(:date)
+                         .where("DATE_TRUNC('month', date) = ?", query)
   end
 
   # GET /purchases/1

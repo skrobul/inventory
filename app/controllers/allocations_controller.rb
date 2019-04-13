@@ -6,7 +6,12 @@ class AllocationsController < ApplicationController
   # GET /allocations
   # GET /allocations.json
   def index
+    year = params.fetch(:year, Date.today.year)
+    month = params.fetch(:month, Date.today.month)
+    query = "#{year}-#{month}-01"
     @allocations = Allocation.all
+                             .order(:date)
+                             .where("DATE_TRUNC('month', date) = ?", query)
   end
 
   # GET /allocations/1

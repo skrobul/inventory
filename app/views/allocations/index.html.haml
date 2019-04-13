@@ -1,5 +1,15 @@
 %h1 Listing allocations
 
+= form_tag('/allocations', method: 'get') do
+  .field
+    = label_tag :year, "Year"
+    = number_field_tag :year, Date.today.year
+  .field
+    = label_tag :month, "Month"
+    = number_field_tag :month, Date.today.month
+  .actions
+    = submit_tag 'Search'
+
 %table
   %thead
     %tr
