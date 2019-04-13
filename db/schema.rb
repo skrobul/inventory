@@ -17,33 +17,26 @@ ActiveRecord::Schema.define(version: 2019_04_12_150758) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.bigint "category_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_items_on_category_id"
   end
 
   create_table "purchases", force: :cascade do |t|
+    t.date "date"
     t.bigint "retailer_id"
     t.bigint "item_id"
     t.integer "quantity"
     t.decimal "unit_cost"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_purchases_on_item_id"
     t.index ["retailer_id"], name: "index_purchases_on_retailer_id"
   end
 
   create_table "retailers", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "items", "categories"
