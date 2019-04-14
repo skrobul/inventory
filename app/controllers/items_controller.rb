@@ -7,6 +7,9 @@ class ItemsController < ApplicationController
   # GET /items.json
   def index
     @items = Item.all
+    @total_available_value = @items.inject(0) do |sum, item|
+      sum + item.available_value
+    end
   end
 
   # GET /items/1

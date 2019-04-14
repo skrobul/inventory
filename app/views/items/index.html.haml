@@ -1,10 +1,17 @@
-%h1 Listing items
+%h1 Items
+
+%p
+  =link_to 'Home', root_path
+%p
+  = link_to 'New Item', new_item_path
 
 %table
   %thead
     %tr
       %th Name
       %th Category
+      %th Available
+      %th Value
       %th
       %th
       %th
@@ -14,10 +21,32 @@
       %tr
         %td= item.name
         %td= item.category.name
+        %td= item.available
+        %td= item.available_value.round(2)
         %td= link_to 'Show', item
         %td= link_to 'Edit', edit_item_path(item)
         %td= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'New Item', new_item_path
+%h2 Items available by unit cost
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Unit Cost
+      %th Available
+      %th Value
+
+  %tbody
+    - @items.each do |item|
+      - item.available_breakdown.each do |breakdown|
+        %tr
+          %td= item.name
+          %td= breakdown.unit_cost.ceil(4)
+          %td= breakdown.quantity
+          %td= breakdown.value.round(2)
+
+%h2 Total value of available items
+%p= @total_available_value.round(2)

@@ -1,4 +1,9 @@
-%h1 Listing retailers
+%h1 Retailers
+
+%p
+  =link_to 'Home', root_path
+%p
+  = link_to 'New Retailer', new_retailer_path
 
 %table
   %thead
@@ -15,7 +20,3 @@
         %td= link_to 'Show', retailer
         %td= link_to 'Edit', edit_retailer_path(retailer)
         %td= link_to 'Destroy', retailer, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Retailer', new_retailer_path

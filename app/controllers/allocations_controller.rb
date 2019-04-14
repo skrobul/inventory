@@ -3,18 +3,21 @@
 class AllocationsController < ApplicationController
   before_action :set_allocation, only: %i[show edit update destroy]
 
+  AllocationCategoryBreakdown = Struct.new(:name, :used_cost)
+
   # GET /allocations
   # GET /allocations.json
   def index
-    year = params.fetch(:year, Date.today.year)
-    month = params.fetch(:month, Date.today.month)
-    query = "#{year}-#{month}-01"
+    @year = params.fetch(:year, Date.today.year)
+    @month = params.fetch(:month, Date.today.month)
+    query = "#{@year}-#{@month}-01"
     @allocations = Allocation.all
                              .order(:date)
                              .where("DATE_TRUNC('month', date) = ?", query)
     @total_allocations = @allocations.inject(0) do |sum, allocation|
       sum + allocation.purchase.unit_cost * allocation.quantity
     end.round(2)
+    category_breakdown
   end
 
   # GET /allocations/1
@@ -89,5 +92,17 @@ class AllocationsController < ApplicationController
     item_id = params.dig(:item, :id)
     result[:item_id] = item_id
     result
+  end
+
+  def category_breakdown
+    allocation_categories = @allocations.map do |allocation|
+      [allocation.purchase.item.category.name,
+       allocation.purchase.unit_cost * allocation.quantity]
+    end
+    grouped = allocation_categories.group_by(&:first)
+    @category_breakdown = grouped.map do |category, pairs|
+      category_total = pairs.inject(0) { |sum, pair| sum + pair.last }
+      AllocationCategoryBreakdown.new(category, category_total.round(2))
+    end
   end
 end

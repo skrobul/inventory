@@ -3,18 +3,21 @@
 class PurchasesController < ApplicationController
   before_action :set_purchase, only: %i[show edit update destroy]
 
+  PurchaseCategoryBreakdown = Struct.new(:name, :purchase_cost)
+
   # GET /purchases
   # GET /purchases.json
   def index
-    year = params.fetch(:year, Date.today.year)
-    month = params.fetch(:month, Date.today.month)
-    query = "#{year}-#{month}-01"
+    @year = params.fetch(:year, Date.today.year)
+    @month = params.fetch(:month, Date.today.month)
+    query = "#{@year}-#{@month}-01"
     @purchases = Purchase.all
                          .order(:date)
                          .where("DATE_TRUNC('month', date) = ?", query)
     @total_purchases = @purchases.inject(0) do |sum, purchase|
       sum + purchase.unit_cost * purchase.quantity
     end.round(2)
+    category_breakdown
   end
 
   # GET /purchases/1
@@ -83,5 +86,17 @@ class PurchasesController < ApplicationController
     total = result.delete(:total_cost)
     result[:unit_cost] = BigDecimal(total) / Integer(result.fetch(:quantity))
     result
+  end
+
+  def category_breakdown
+    purchase_categories = @purchases.map do |purchase|
+      [purchase.item.category.name,
+       purchase.quantity * purchase.unit_cost]
+    end
+    grouped = purchase_categories.group_by(&:first)
+    @category_breakdown = grouped.map do |category, pairs|
+      category_total = pairs.inject(0) { |sum, pair| sum + pair.last }
+      PurchaseCategoryBreakdown.new(category, category_total.round(2))
+    end
   end
 end

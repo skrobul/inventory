@@ -1,12 +1,17 @@
-%h1 Listing purchases
+%h1 Purchases
+
+%p
+  =link_to 'Home', root_path
+%p
+  = link_to 'New Purchase', new_purchase_path
 
 = form_tag('/purchases', method: 'get') do
   .field
     = label_tag :year, "Year"
-    = number_field_tag :year, Date.today.year
+    = number_field_tag :year, @year
   .field
     = label_tag :month, "Month"
-    = number_field_tag :month, Date.today.month
+    = number_field_tag :month, @month
   .actions
     = submit_tag 'Search'
 
@@ -38,9 +43,19 @@
 
 %br
 
-%h2 Total
+%h2 Purchases by category
+%table
+  %thead
+    %tr
+      %th Category
+      %th Cost
+
+  %tbody
+    - @category_breakdown.each do |category_breakdown|
+      %tr
+        %td= category_breakdown.name
+        %td= category_breakdown.purchase_cost
+
+
+%h2 Total purchases
 %p= @total_purchases
-
-%br
-
-= link_to 'New Purchase', new_purchase_path
