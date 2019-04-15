@@ -45,6 +45,14 @@ class Purchase < ApplicationRecord
       .order(:date)
   }
 
+  scope :available_by_item_possibly_simpler, lambda { |item_id|
+    where(item_id: item_id)
+      .joins(:allocations)
+      .group(:id)
+      .having('purchases.quantity - SUM(allocations.quantity) > 0')
+      .order(:date)
+  }
+
   def total_cost
     (unit_cost || 0) * quantity.to_i
   end
